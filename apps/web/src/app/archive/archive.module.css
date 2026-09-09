@@ -1,0 +1,263 @@
+/* ─── Archive Page ───────────────────────────────────────────────────────────── */
+
+.layout {
+  display: flex;
+  min-height: 100dvh;
+  background: var(--color-bg-primary);
+}
+
+.main {
+  flex: 1;
+  padding: var(--space-8) var(--space-10);
+  max-width: 1280px;
+  width: 100%;
+  min-width: 0;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+}
+
+.headerLeft h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin-bottom: var(--space-1);
+}
+
+.headerSub {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+}
+
+/* ─── Filters ────────────────────────────────────────────────────────────────── */
+
+.filters {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+  padding: var(--space-3);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.searchWrap {
+  position: relative;
+  flex: 1;
+  min-width: 240px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 11px 16px 11px 42px;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-size: 0.9375rem;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-disabled);
+}
+
+.searchInput:focus {
+  border-color: var(--color-accent-blue);
+  box-shadow: 0 0 0 3px rgba(138, 0, 90, 0.18);
+}
+
+.filterSelect {
+  padding: 11px 16px;
+  background: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.filterSelect:focus {
+  border-color: var(--color-accent-blue);
+}
+
+/* ─── Meetings grid ──────────────────────────────────────────────────────────── */
+
+.meetingsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-5);
+}
+
+/* ─── Meeting card ───────────────────────────────────────────────────────────── */
+
+.card {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  text-align: left;
+  width: 100%;
+}
+
+.card:hover {
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.35;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.cardMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cardSummary {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardTasks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cardTask {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.cardTaskDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-accent-amber);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+/* ─── Empty state ────────────────────────────────────────────────────────────── */
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-8);
+  text-align: center;
+  gap: var(--space-4);
+  grid-column: 1 / -1;
+}
+
+.emptyIcon {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emptyTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.emptyDesc {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  max-width: 360px;
+}
+
+/* ─── Loading skeleton ───────────────────────────────────────────────────────── */
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-5);
+}
+
+.skeletonCard {
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .main {
+    padding: var(--space-4);
+  }
+
+  .meetingsGrid,
+  .skeletonGrid {
+    grid-template-columns: 1fr;
+  }
+}
