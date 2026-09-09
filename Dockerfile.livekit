@@ -1,0 +1,16 @@
+FROM livekit/livekit-server:latest
+
+USER root
+
+# Install gettext package which contains envsubst
+RUN apk add --no-cache gettext socat
+
+# Copy configuration template and entrypoint script
+COPY livekit.yaml /etc/livekit.yaml.template
+COPY entrypoint.sh /entrypoint.sh
+
+# Fix line endings (CRLF to LF) for Unix compatibility and ensure execution permissions
+RUN dos2unix /entrypoint.sh && chmod +x /entrypoint.sh
+
+# Set the custom entrypoint
+ENTRYPOINT ["/entrypoint.sh"]

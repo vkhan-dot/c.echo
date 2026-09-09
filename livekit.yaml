@@ -1,0 +1,54 @@
+# LiveKit Self-Hosted configuration for Railway
+# Mount this file at /etc/livekit.yaml in the container.
+#
+# Railway specifics:
+# - No UDP ingress. ICE-TCP fallback is mandatory.
+# - TCP Proxy gives a random external port. LiveKit must listen on the same
+#   port that Railway exposes publicly, because LiveKit advertises its listen
+#   port in ICE candidates. Set LIVEKIT_TCP_PORT and Railway TCP Proxy target
+#   port to the port Railway shows in the dashboard.
+# - node_ip must be the public IP of Railway's TCP Proxy edge, not the
+#   container egress IP. Prefer LIVEKIT_TCP_PROXY_HOST and let entrypoint
+#   resolve it.
+
+port: 8080
+
+rtc:
+  # Must equal the public TCP port Railway assigned for this service.
+  tcp_port: ${LIVEKIT_TCP_PORT}
+
+  # Public IP that Railway TCP Proxy resolves to. It can be resolved at startup
+  # from LIVEKIT_TCP_PROXY_HOST, or set manually via LIVEKIT_NODE_IP.
+  node_ip: "${LIVEKIT_NODE_IP}"
+
+  # UDP is unreachable from outside on Railway. Keep the range minimal.
+  # Range is still required by LiveKit, but effectively unused here.
+  port_range_start: 50000
+  port_range_end: 50010
+
+  # Disabled: we provide node_ip explicitly. Auto-detect resolves the container
+  # egress IP, which is different from the proxy edge IP clients connect to.
+  use_external_ip: false
+
+  # No external TURN servers here: the previous provider returned UDP relay
+  # candidates that cannot reach LiveKit on Railway. Keep this config focused on
+  # the advertised ICE-TCP candidate through Railway's TCP Proxy.
+
+# Keys: format is API_KEY: API_SECRET
+keys:
+  "${LIVEKIT_API_KEY}": "${LIVEKIT_API_SECRET}"
+
+# Redis - required for coordinate state and scheduling Egress jobs
+redis:
+  address: "${REDIS_ADDRESS}"
+  password: "${REDIS_PASSWORD}"
+
+# Logging
+logging:
+  level: info
+  pion_level: error
+
+# Room limits
+room:
+  max_participants: 7
+  empty_timeout: 300  # 5 minutes

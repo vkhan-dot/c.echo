@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  # ─── PostgreSQL ─────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: centras-postgres
+    environment:
+      POSTGRES_DB: centras_echo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ─── LiveKit Self-Hosted ─────────────────────────────────────────────────────
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: centras-livekit
+    command: --dev --bind 0.0.0.0
+    ports:
+      - "7880:7880"   # HTTP/WebSocket
+      - "7881:7881"   # TCP RTC
+      - "50000-50010:50000-50010/udp"  # UDP RTC (limited range for dev)
+    environment:
+      LIVEKIT_KEYS: "devkey: devsecret-minimum-32-characters-long"
+    volumes:
+      - audio_data:/data/audio
+
+volumes:
+  postgres_data:
+  audio_data:
